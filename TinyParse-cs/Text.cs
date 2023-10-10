@@ -10,11 +10,15 @@ namespace TinyParse
     {
         string Read(int length = 1);
         string Peek(int length = 1);
+        int Offset { get; }
+        void Seek(int offset=0);
     }
     public class Text : IText
     {
         private int _offset = 0;
         private string _text;
+
+        public int Offset => _offset;
 
         public Text(string text)
         {
@@ -30,6 +34,10 @@ namespace TinyParse
             var value = Peek(length);
             _offset += length;
             return value;
+        }
+        public void Seek(int offset = 0)
+        {
+            _offset = offset;
         }
     }
 }
