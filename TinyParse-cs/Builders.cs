@@ -9,15 +9,6 @@ namespace TinyParse
 {
     public static class Builders
     {
-        public static Parser Chr(char target)
-        {
-            return text =>
-            {
-                return text.Peek() == target.ToString()
-                ? text.Read()
-                : null;
-            };
-        }
         public static Parser Str(string target)
         {
             return text =>

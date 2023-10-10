@@ -6,30 +6,23 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public interface IInputReader
+    public interface IText
     {
-        string Text { get; }
         string Read(int length = 1);
         string Peek(int length = 1);
-        void Seek(int index = 0);
     }
-    public class InputReader : IInputReader
+    public class Text : IText
     {
         private int _offset = 0;
-        public string Text { get; private set; }=string.Empty;
+        private string _text;
 
-        public InputReader()
+        public Text(string text)
         {
-
-        }
-
-        public InputReader(string text)
-        {
-            Text = text;
+            _text = text;
         }
         public string Peek(int length = 1)
         {
-            return Text.Substring(_offset, length);
+            return _text.Substring(_offset, length);
         }
 
         public string Read(int length = 1)
@@ -37,11 +30,6 @@ namespace TinyParse
             var value = Peek(length);
             _offset += length;
             return value;
-        }
-
-        public void Seek(int index = 0)
-        {
-            _offset = index;
         }
     }
 }

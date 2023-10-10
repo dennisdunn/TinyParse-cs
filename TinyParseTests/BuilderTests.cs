@@ -13,15 +13,15 @@ namespace TinyParseTests
         [TestMethod]
         public void ChrParser()
         {
-            var p = Builders.Chr('h');
+            var p = Builders.Str("h");
             Assert.IsInstanceOfType(p, typeof(Parser));
         }
 
         [TestMethod]
-        public void RunChrParser()
+        public void RunCStrParser()
         {
-            var input = new InputReader(Constants.Hello);
-            var p = Builders.Chr('h');
+            var input = new Text(Constants.Hello);
+            var p = Builders.Str("h");
             var c = p(input);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
@@ -30,7 +30,7 @@ namespace TinyParseTests
         [TestMethod]
         public void RunAnyOfParser()
         {
-            var input = new InputReader(Constants.Hello);
+            var input = new Text(Constants.Hello);
             var p = Builders.AnyOf("efghijk");
             var c = p(input);
             Assert.IsNotNull(c);

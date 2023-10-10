@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public delegate string? Parser(IInputReader text);
+    public delegate string? Parser(IText text);
 }
