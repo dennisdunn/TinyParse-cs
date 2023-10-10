@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public static class Builders
+    public static class Parsers
     {
         public static Parser Str(string target)
         {
             return text =>
             {
-
-                return text.Peek(target.Length) == target
+                var c = text.Peek(target.Length);
+                return c != null && c == target
                 ? text.Read(target.Length)
                 : null;
             };
@@ -23,8 +23,8 @@ namespace TinyParse
         {
             return text =>
             {
-
-                return target.Contains(text.Peek())
+                var c = text.Peek();
+                return c != null && target.Contains(c)
                 ? text.Read()
                 : null;
             };

@@ -8,10 +8,10 @@ namespace TinyParse
 {
     public interface IText
     {
-        string Read(int length = 1);
-        string Peek(int length = 1);
+        string? Read(int length = 1);
+        string? Peek(int length = 1);
         int Offset { get; }
-        void Seek(int offset=0);
+        void Seek(int offset = 0);
     }
     public class Text : IText
     {
@@ -24,15 +24,20 @@ namespace TinyParse
         {
             _text = text;
         }
-        public string Peek(int length = 1)
+        public string? Peek(int length = 1)
         {
-            return _text.Substring(_offset, length);
+            return _offset >= _text.Length
+                ? null
+                : _text.Substring(_offset, length);
         }
 
-        public string Read(int length = 1)
+        public string? Read(int length = 1)
         {
             var value = Peek(length);
-            _offset += length;
+            if (value != null)
+            {
+                _offset += length;
+            }
             return value;
         }
         public void Seek(int offset = 0)
