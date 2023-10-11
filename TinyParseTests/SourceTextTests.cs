@@ -8,16 +8,16 @@ namespace TinyParseTests
         [TestMethod]
         public void SeekError()
         {
-            Assert.ThrowsException<SeekError>(() => Input.Seek(100));
+            Assert.ThrowsException<SeekError>(() => TextInput.Seek(100));
         }
 
         [TestMethod]
         public void PeekOne()
         {
 
-            var s = Input.Peek();
+            var s = TextInput.Peek();
             Assert.AreEqual(s, "h");
-            s = Input.Peek();
+            s = TextInput.Peek();
             Assert.AreEqual(s, "h");
         }
 
@@ -25,9 +25,9 @@ namespace TinyParseTests
         public void ReadOne()
         {
 
-            var s = Input.Read();
+            var s = TextInput.Read();
             Assert.AreEqual(s, "h");
-            s = Input.Read();
+            s = TextInput.Read();
             Assert.AreEqual(s, "e");
         }
 
@@ -35,9 +35,9 @@ namespace TinyParseTests
         public void PeekMany()
         {
 
-            var s = Input.Peek(5);
+            var s = TextInput.Peek(5);
             Assert.AreEqual(s, "hello");
-            s = Input.Peek(5);
+            s = TextInput.Peek(5);
             Assert.AreEqual(s, "hello");
         }
 
@@ -45,9 +45,9 @@ namespace TinyParseTests
         public void ReadMany()
         {
 
-            var s = Input.Read(5);
+            var s = TextInput.Read(5);
             Assert.AreEqual(s, "hello");
-            s = Input.Read();
+            s = TextInput.Read();
             Assert.AreEqual(s, ",");
         }
     }

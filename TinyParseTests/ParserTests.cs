@@ -13,7 +13,7 @@ namespace TinyParseTests
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(Input));
+            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(TextInput));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace TinyParseTests
         {
 
             var p = Parsers.Str("h");
-            var c = p(Input);
+            var c = p(TextInput);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
         }
@@ -38,10 +38,10 @@ namespace TinyParseTests
         {
 
             var p = Parsers.AnyOf("efghijk");
-            var c = p(Input);
+            var c = p(TextInput);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
-            Assert.AreEqual(1, Input.Position);
+            Assert.AreEqual(1, TextInput.Position);
         }
     }
 }

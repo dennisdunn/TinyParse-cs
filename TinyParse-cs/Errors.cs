@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public class SyntaxError : Exception
+    public abstract class TinyParseError : Exception
+    {
+        public TinyParseError() { }
+        public TinyParseError(Exception inner) : base(null, inner) { }
+        public TinyParseError(string msg, Exception inner) : base(msg, inner) { }
+    }
+
+    public class SyntaxError : TinyParseError
     {
         public int? Position { get; init; }
         public string? Expected { get; init; }
         public SyntaxError() { }
-        public SyntaxError(Exception inner) : base(null, inner)
+        public SyntaxError(Exception inner) : base(inner)
         {
         }
         public SyntaxError(string msg, Exception inner) : base(msg, inner)
@@ -19,19 +26,19 @@ namespace TinyParse
         }
     }
 
-    public class EotError : Exception
+    public class EotError : TinyParseError
     {
         public EotError()
         { }
-        public EotError(Exception inner) : base(null, inner)
+        public EotError(Exception inner) : base(inner)
         { }
     }
 
-    public class SeekError : Exception
+    public class SeekError : TinyParseError
     {
         public SeekError()
         { }
-        public SeekError(Exception inner) : base(null, inner)
+        public SeekError(Exception inner) : base(inner)
         { }
     }
 }

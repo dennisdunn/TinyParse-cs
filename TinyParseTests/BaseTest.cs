@@ -10,12 +10,16 @@ namespace TinyParseTests
     [TestClass]
     public abstract class BaseTest
     {
-        internal ISourceText Input { get; } = new SourceText(Constants.Text);
+        internal ISourceText TextInput { get; } = new SourceText(Constants.Text);
+        internal ISourceText IntegerInput { get; } = new SourceText(Constants.Integer);
+        internal ISourceText FloatInput { get; } = new SourceText(Constants.Float);
 
         [TestInitialize]
         public void Initialize()
         {
-            Input.Seek();
+            TextInput.Seek();
+            IntegerInput.Seek();
+            FloatInput.Seek();
         }
     }
 }
