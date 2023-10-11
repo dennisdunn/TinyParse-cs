@@ -2,31 +2,46 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Predicate = TinyParse.Predicate;
 
 namespace TinyParse
 {
     public static class Parsers
     {
-        public static Parser Str(string target)
+        internal static string Parse(ISourceText text, string expected, int length, Predicate fn)
+        {
+            var str = text.Peek(length);
+            if (fn(str, expected))
+            {
+                return text.Read(length);
+            }
+            else
+            {
+                throw new SyntaxError()
+                {
+                    Position = text.Position,
+                    Expected = expected
+                };
+            }
+        }
+
+
+        public static Parser Str(string expected)
         {
             return text =>
             {
-                var c = text.Peek(target.Length);
-                return c != null && c == target
-                ? text.Read(target.Length)
-                : null;
+                return Parse(text, expected, expected.Length, (str, exp) => str == exp);
             };
         }
-        public static Parser AnyOf(string target)
+
+        public static Parser AnyOf(string expected)
         {
             return text =>
             {
-                var c = text.Peek();
-                return c != null && target.Contains(c)
-                ? text.Read()
-                : null;
+                return Parse(text, expected, 1, (str, exp) => exp.Contains(str));
             };
         }
     }

@@ -8,8 +8,14 @@ using TinyParse;
 namespace TinyParseTests
 {
     [TestClass]
-    public class BuilderTests
+    public class ParserTests : BaseTest
     {
+        [TestMethod]
+        public void SyntaxErrorTest()
+        {
+            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(Input));
+        }
+
         [TestMethod]
         public void ChrParser()
         {
@@ -18,11 +24,11 @@ namespace TinyParseTests
         }
 
         [TestMethod]
-        public void RunCStrParser()
+        public void RunStrParser()
         {
-            var input = new Text(Constants.Hello);
+
             var p = Parsers.Str("h");
-            var c = p(input);
+            var c = p(Input);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
         }
@@ -30,12 +36,12 @@ namespace TinyParseTests
         [TestMethod]
         public void RunAnyOfParser()
         {
-            var input = new Text(Constants.Hello);
+
             var p = Parsers.AnyOf("efghijk");
-            var c = p(input);
+            var c = p(Input);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
-            Assert.AreEqual(1, input.Offset);
+            Assert.AreEqual(1, Input.Position);
         }
     }
 }
