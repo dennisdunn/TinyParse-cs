@@ -39,5 +39,15 @@ namespace TinyParseTests
             var result = digits(IntegerInput);
             Assert.AreEqual(Constants.Integer, result);
         }
+
+        [TestMethod]
+        public void ParseOneOrTheOther()
+        {
+            // Tests wether the first failed parse resets the position of the input.
+            var digit = Combinators.Any(Parsers.Str("8"), Parsers.Str("3"));
+
+            var result = digit(IntegerInput);
+            Assert.AreEqual("3", result);
+        }
     }
 }

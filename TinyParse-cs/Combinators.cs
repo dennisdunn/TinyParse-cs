@@ -17,6 +17,7 @@ namespace TinyParse
         {
             return text =>
             {
+                var position = text.Position;
                 foreach (Parser parser in parsers)
                 {
                     try
@@ -25,6 +26,7 @@ namespace TinyParse
                     }
                     catch (SyntaxError)
                     {
+                        text.Seek(position);
                     }
 
                 }
@@ -83,7 +85,7 @@ namespace TinyParse
         /// </summary>
         /// <param name="parser"></param>
         /// <returns>
-        /// If the parser doesn't match then return "" instead of null.
+        /// If the parser doesn't match then return "" instead throwing an exception.
         /// </returns>
         public static Parser Optional(Parser parser)
         {
