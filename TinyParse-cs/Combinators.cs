@@ -28,7 +28,6 @@ namespace TinyParse
                     {
                         text.Seek(position);
                     }
-
                 }
                 throw new SyntaxError();
             };
@@ -111,6 +110,11 @@ namespace TinyParse
             return Optional(Many(parser));
         }
 
+        /// <summary>
+        /// Ignore the results of the parser.
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <returns>string.Empty</returns>
         public static Parser Ignore(Parser parser)
         {
             return text =>
@@ -118,6 +122,46 @@ namespace TinyParse
                 parser(text);
 
                 return string.Empty;
+            };
+        }
+
+        /// <summary>
+        /// Return the result of middle parser iff all parsers matched.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="mid"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static Parser Between(Parser left, Parser mid, Parser right)
+        {
+            return text =>
+            {
+                left(text);
+                var result = mid(text);
+                right(text);
+
+                return result;
+            };
+
+        }
+
+        /// <summary>
+        /// Build a list (possibly nested) of the results from the parsers.
+        /// </summary>
+        /// <param name="parsers"></param>
+        /// <returns</returns>
+        public static Parser Sequence(params Parser[] parsers)
+        {
+            return text =>
+            {
+                var result = new List<dynamic>();
+
+                foreach (Parser parser in parsers)
+                {
+                    result.Add(parser(text));
+                }
+
+                return result;
             };
         }
     }

@@ -3,51 +3,52 @@ using TinyParse;
 namespace TinyParseTests
 {
     [TestClass]
-    public class SourceTextTests : BaseTest
+    public class SourceTextTests
     {
         [TestMethod]
         public void SeekError()
         {
-            Assert.ThrowsException<SeekError>(() => TextInput.Seek(100));
+            var source =Strings.Text.Source();
+            Assert.ThrowsException<SeekError>(() => source.Seek(100));
         }
 
         [TestMethod]
         public void PeekOne()
         {
-
-            var s = TextInput.Peek();
+            var source = Strings.Text.Source();
+            var s = source.Peek();
             Assert.AreEqual(s, "h");
-            s = TextInput.Peek();
+            s = source.Peek();
             Assert.AreEqual(s, "h");
         }
 
         [TestMethod]
         public void ReadOne()
         {
-
-            var s = TextInput.Read();
+            var source = Strings.Text.Source();
+            var s = source.Read();
             Assert.AreEqual(s, "h");
-            s = TextInput.Read();
+            s = source.Read();
             Assert.AreEqual(s, "e");
         }
 
         [TestMethod]
         public void PeekMany()
         {
-
-            var s = TextInput.Peek(5);
+            var source = Strings.Text.Source();
+            var s = source.Peek(5);
             Assert.AreEqual(s, "hello");
-            s = TextInput.Peek(5);
+            s = source.Peek(5);
             Assert.AreEqual(s, "hello");
         }
 
         [TestMethod]
         public void ReadMany()
         {
-
-            var s = TextInput.Read(5);
+            var source = Strings.Text.Source();
+            var s = source.Read(5);
             Assert.AreEqual(s, "hello");
-            s = TextInput.Read();
+            s = source.Read();
             Assert.AreEqual(s, ",");
         }
     }

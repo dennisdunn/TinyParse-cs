@@ -11,7 +11,7 @@ namespace TinyParse
 {
     public static class Parsers
     {
-        internal static string Parse(ISourceText text, string expected, int length, Predicate fn)
+        internal static dynamic Parse(ISourceText text, string expected, int length, Predicate fn)
         {
             var str = text.Peek(length);
             if (fn(str, expected))

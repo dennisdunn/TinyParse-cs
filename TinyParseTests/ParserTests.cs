@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ using TinyParse;
 namespace TinyParseTests
 {
     [TestClass]
-    public class ParserTests : BaseTest
+    public class ParserTests
     {
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(TextInput));
+            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(Strings.Text.Source()));
         }
 
         [TestMethod]
@@ -28,7 +29,7 @@ namespace TinyParseTests
         {
 
             var p = Parsers.Str("h");
-            var c = p(TextInput);
+            var c = p(Strings.Text.Source());
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
         }
@@ -36,12 +37,12 @@ namespace TinyParseTests
         [TestMethod]
         public void RunAnyOfParser()
         {
-
+            var source = Strings.Text.Source();
             var p = Parsers.AnyOf("efghijk");
-            var c = p(TextInput);
+            var c = p(source);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
-            Assert.AreEqual(1, TextInput.Position);
+            Assert.AreEqual(1, source.Position);
         }
     }
 }
