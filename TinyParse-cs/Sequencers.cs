@@ -9,6 +9,19 @@ namespace TinyParse
     public static class Sequencers
     {
         /// <summary>
+        /// Wrap the result of the parser in a list.
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public static Sequencer One(Parser parser)
+        {
+            return text =>
+            {
+                return new List<string> { parser(text) };
+            };
+        }
+
+        /// <summary>
         /// All of the parsers must succeed.
         /// </summary>
         /// <param name="parsers"></param>
@@ -21,11 +34,7 @@ namespace TinyParse
 
                 foreach (Parser parser in parsers)
                 {
-                    var str = parser(text);
-                    if (str != string.Empty)
-                    {
-                        result.Add(str);
-                    }
+                    result.Add(parser(text));
                 }
 
                 return result;
@@ -41,23 +50,39 @@ namespace TinyParse
         {
             return text =>
             {
-                var result = new List<string>();
+                var result = new List<string> { parser(text) };
 
                 while (true)
                 {
                     try
                     {
-                        var str = parser(text);
-                        if (str != string.Empty)
-                        {
-                            result.Add(str);
-                        }
+                        result.Add(parser(text));
                     }
                     catch (TinyParseError)
                     {
                         break;
                     }
                 }
+                return result;
+            };
+        }
+
+        /// <summary>
+        /// Combine the results of all of the sequencers into a single list.
+        /// </summary>
+        /// <param name="sequencers"></param>
+        /// <returns></returns>
+        public static Sequencer Combine(params Sequencer[] sequencers)
+        {
+            return text =>
+            {
+                var result = new List<string>();
+
+                foreach(Sequencer sequencer in sequencers)
+                {
+                    result.AddRange(sequencer(text));
+                }
+
                 return result;
             };
         }

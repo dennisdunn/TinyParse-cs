@@ -57,7 +57,7 @@ namespace TinyParse
         /// <summary>
         /// One or more.
         /// </summary>
-        /// <param name="parsers"></param>
+        /// <param name="parser"></param>
         /// <returns></returns>
         public static Parser Many(Parser parser)
         {
