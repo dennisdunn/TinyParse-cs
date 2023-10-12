@@ -110,5 +110,15 @@ namespace TinyParse
         {
             return Optional(Many(parser));
         }
+
+        public static Parser Ignore(Parser parser)
+        {
+            return text =>
+            {
+                parser(text);
+
+                return string.Empty;
+            };
+        }
     }
 }

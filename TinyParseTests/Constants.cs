@@ -13,5 +13,6 @@ namespace TinyParseTests
         public static string Float => "-3.88";
         public static string Digits => "1234567890";
         public static string Sign => "+-";
+        public static string Whitespace => @" \t\n\l";
     }
 }
