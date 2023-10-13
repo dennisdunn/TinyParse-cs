@@ -94,7 +94,7 @@ namespace TinyParse
                 {
                     return parser(text);
                 }
-                catch (SyntaxError)
+                catch (TinyParseError)
                 {
                     return string.Empty;
                 }
