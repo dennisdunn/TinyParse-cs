@@ -168,5 +168,40 @@ namespace TinyParse
                 return result;
             };
         }
+
+        /// <summary>
+        /// One or more.
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public static Parser Repeat(Parser parser)
+        {
+            return text =>
+            {
+                var result = new List<dynamic> { parser(text) };
+
+                while (true)
+                {
+                    try
+                    {
+                        result.Add(parser(text));
+                    }
+                    catch (Error)
+                    {
+                        break;
+                    }
+                }
+                return result;
+            };
+        }
+
+        public static Parser Apply<T>(Parser parser, Func<string, T> fn)
+        {
+            return text =>
+            {
+                var result = parser(text);
+                return fn(result);
+            };
+        }
     }
 }

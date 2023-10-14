@@ -10,6 +10,15 @@ namespace TinyParseTests
     [TestClass]
     public class CombinatorTests
     {
+
+        [TestMethod]
+        public void ParseAString()
+        {
+            var parser =Parsers.Str("hello");
+            dynamic result = parser(Strings.Text.Source());
+            Assert.AreEqual("hello", result);
+        }
+
         [TestMethod]
         public void ParseNumber()
         {
@@ -53,10 +62,18 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseASequence()
         {
-            var parser = Combinators.Sequence(Parsers.Str("hello"),Parsers.Str("world"));
+            var parser = Combinators.Sequence(Parsers.Str("hello"), Parsers.Str("world"));
             dynamic result = parser(Strings.Text2.Source());
             Assert.AreEqual("hello", result[0]);
             Assert.AreEqual("world", result[1]);
+        }
+
+        [TestMethod]
+        public void ParseAndApply()
+        {
+            var parser = Combinators.Apply(Parsers.Str("hello"), s => s.ToUpper());
+            dynamic result = parser(Strings.Text.Source());
+            Assert.AreEqual("HELLO", result);
         }
     }
 }
