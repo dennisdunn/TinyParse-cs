@@ -21,10 +21,7 @@ namespace TinyParseGrammar
         public static Parser Lower => "abcdeghijklmnopqrstuvwxyz".AnyOf();
         public static Parser AlphaNumeric => new[] { Upper, Lower, Digit }.Any();
         public static Parser Number => new[] { Sign, Digits, DecimalPart }.All();
-    }
 
-    public static class ParsersHelpers
-    {
         public static Parser AnyOf(this string text)
         {
             return P.AnyOf(text);
@@ -42,12 +39,12 @@ namespace TinyParseGrammar
 
         public static Parser Any(this IEnumerable<Parser> parsers)
         {
-            return C.Any(parsers.ToArray<Parser>());
+            return C.Any(parsers.ToArray());
         }
 
         public static Parser All(this IEnumerable<Parser> parsers)
         {
-            return C.All(parsers.ToArray<Parser>());
+            return C.All(parsers.ToArray());
         }
 
         public static Parser Many(this Parser parser)
@@ -63,6 +60,11 @@ namespace TinyParseGrammar
         public static Parser Maybe(this Parser parser)
         {
             return C.Maybe(parser);
+        }
+
+        public static Parser IgnoreWsBefore(this Parser parser)
+        {
+            return C.All(Whitespace.Ignore(), parser);
         }
 
         public static ISourceText AsSrc(this string text)

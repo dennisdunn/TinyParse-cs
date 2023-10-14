@@ -70,7 +70,7 @@ namespace TinyParse
                     {
                         result.Append(parser(text));
                     }
-                    catch (TinyParseError)
+                    catch (Error)
                     {
                         break;
                     }
@@ -84,7 +84,7 @@ namespace TinyParse
         /// </summary>
         /// <param name="parser"></param>
         /// <returns>
-        /// If the parser doesn't match then return "" instead throwing an exception.
+        /// If the parser doesn't match then return "" instead throwing an Error.
         /// </returns>
         public static Parser Optional(Parser parser)
         {
@@ -94,7 +94,7 @@ namespace TinyParse
                 {
                     return parser(text);
                 }
-                catch (TinyParseError)
+                catch (Error)
                 {
                     return string.Empty;
                 }
@@ -119,7 +119,11 @@ namespace TinyParse
         {
             return text =>
             {
-                parser(text);
+                try
+                {
+                    parser(text);
+                }
+                catch (Error) { }
 
                 return string.Empty;
             };

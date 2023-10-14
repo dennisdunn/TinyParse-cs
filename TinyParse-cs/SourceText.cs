@@ -32,21 +32,28 @@ namespace TinyParse
             }
             catch (Exception innerException)
             {
-                throw new EotError(innerException);
+                throw new BoundsError(innerException);
             }
         }
 
         public string Read(int length = 1)
         {
-            var value = Peek(length);
-            _position += length;
-            return value;
+            try
+            {
+                var value = _text.Substring(_position, length);
+                _position += length;
+                return value;
+            }
+            catch (Exception innerException)
+            {
+                throw new BoundsError(innerException);
+            }
         }
         public void Seek(int position = 0)
         {
             if (position < 0 || position >= _text.Length)
             {
-                throw new SeekError();
+                throw new BoundsError();
             }
             else
             {

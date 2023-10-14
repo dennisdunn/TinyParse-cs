@@ -6,39 +6,23 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public abstract class TinyParseError : Exception
+    public abstract class Error : Exception
     {
-        public TinyParseError() { }
-        public TinyParseError(Exception inner) : base(null, inner) { }
-        public TinyParseError(string msg, Exception inner) : base(msg, inner) { }
+        public Error() { }
+        public Error(Exception e) : base(null, e) { }
     }
 
-    public class SyntaxError : TinyParseError
+    public class SyntaxError : Error
     {
         public int? Position { get; init; }
         public string? Expected { get; init; }
         public SyntaxError() { }
-        public SyntaxError(Exception inner) : base(inner)
-        {
-        }
-        public SyntaxError(string msg, Exception inner) : base(msg, inner)
-        {
-        }
+        public SyntaxError(Exception e) : base(e) { }
     }
 
-    public class EotError : TinyParseError
+    public class BoundsError : Error
     {
-        public EotError()
-        { }
-        public EotError(Exception inner) : base(inner)
-        { }
-    }
-
-    public class SeekError : TinyParseError
-    {
-        public SeekError()
-        { }
-        public SeekError(Exception inner) : base(inner)
-        { }
+        public BoundsError() { }
+        public BoundsError(Exception e) : base( e) { }
     }
 }

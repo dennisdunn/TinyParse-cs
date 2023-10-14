@@ -9,7 +9,7 @@ namespace TinyParseTests
         public void SeekError()
         {
             var source =Strings.Text.Source();
-            Assert.ThrowsException<SeekError>(() => source.Seek(100));
+            Assert.ThrowsException<BoundsError>(() => source.Seek(100));
         }
 
         [TestMethod]
