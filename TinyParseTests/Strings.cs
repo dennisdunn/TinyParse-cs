@@ -16,10 +16,11 @@ namespace TinyParseTests
         public static string Digits => "1234567890";
         public static string Sign => "+-";
         public static string Whitespace => @" \t\n\l";
+        public static string Lower=>"abcdefghijklmnopqrstuvwxyz";
     
-        public static ISourceText Source(this string str)
+        public static ISource Source(this string str)
         {
-            return new SourceText(str);
+            return new Source(str);
         }
     }
 }

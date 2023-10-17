@@ -17,19 +17,19 @@ namespace TinyParse
         {
             return text =>
             {
-                var position = text.Position;
                 foreach (Parser parser in parsers)
                 {
+                    var position = text.Position;
                     try
                     {
                         return parser(text);
                     }
-                    catch (SyntaxError)
+                    catch (Error)
                     {
                         text.Seek(position);
                     }
                 }
-                throw new SyntaxError();
+                throw new SyntaxError { Position = text.Position };
             };
         }
 
@@ -42,14 +42,23 @@ namespace TinyParse
         {
             return text =>
             {
-                var result = new StringBuilder();
-
-                foreach (Parser parser in parsers)
+                var position = text.Position;
+                try
                 {
-                    result.Append(parser(text));
-                }
+                    var result = new StringBuilder();
 
-                return result.ToString();
+                    foreach (Parser parser in parsers)
+                    {
+                        result.Append(parser(text));
+                    }
+
+                    return result.ToString();
+                }
+                catch (SyntaxError)
+                {
+                    text.Seek(position);
+                }
+                throw new SyntaxError { Position = text.Position };
             };
         }
 
@@ -123,30 +132,10 @@ namespace TinyParse
                 {
                     parser(text);
                 }
-                catch (Error) { }
+                catch (SyntaxError) { }
 
                 return string.Empty;
             };
-        }
-
-        /// <summary>
-        /// Return the result of middle parser iff all parsers matched.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="mid"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static Parser Between(Parser left, Parser mid, Parser right)
-        {
-            return text =>
-            {
-                left(text);
-                var result = mid(text);
-                right(text);
-
-                return result;
-            };
-
         }
 
         /// <summary>
@@ -165,32 +154,6 @@ namespace TinyParse
                     result.Add(parser(text));
                 }
 
-                return result;
-            };
-        }
-
-        /// <summary>
-        /// One or more.
-        /// </summary>
-        /// <param name="parser"></param>
-        /// <returns></returns>
-        public static Parser Repeat(Parser parser)
-        {
-            return text =>
-            {
-                var result = new List<dynamic> { parser(text) };
-
-                while (true)
-                {
-                    try
-                    {
-                        result.Add(parser(text));
-                    }
-                    catch (Error)
-                    {
-                        break;
-                    }
-                }
                 return result;
             };
         }

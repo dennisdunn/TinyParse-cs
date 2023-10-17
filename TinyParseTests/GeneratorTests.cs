@@ -9,18 +9,18 @@ using TinyParse;
 namespace TinyParseTests
 {
     [TestClass]
-    public class ParserTests
+    public class GeneratorTests
     {
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<SyntaxError>(() => Parsers.Str("world")(Strings.Text.Source()));
+            Assert.ThrowsException<SyntaxError>(() => Generators.Str("world")(Strings.Text.Source()));
         }
 
         [TestMethod]
         public void ChrParser()
         {
-            var p = Parsers.Str("h");
+            var p = Generators.Str("h");
             Assert.IsInstanceOfType(p, typeof(Parser));
         }
 
@@ -28,7 +28,7 @@ namespace TinyParseTests
         public void RunStrParser()
         {
 
-            var p = Parsers.Str("h");
+            var p = Generators.Str("h");
             var c = p(Strings.Text.Source());
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
@@ -38,7 +38,7 @@ namespace TinyParseTests
         public void RunAnyOfParser()
         {
             var source = Strings.Text.Source();
-            var p = Parsers.AnyOf("efghijk");
+            var p = Generators.AnyOf("efghijk");
             var c = p(source);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());

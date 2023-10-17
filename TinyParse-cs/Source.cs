@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public interface ISourceText
+    public interface ISource
     {
         int Position { get; }
         string Read(int length = 1);
         string Peek(int length = 1);
         void Seek(int position = 0);
     }
-    public class SourceText : ISourceText
+    public class Source : ISource
     {
         private int _position = 0;
         private string _text;
 
         public int Position => _position;
 
-        public SourceText(string text)
+        public Source(string text)
         {
             _text = text;
         }
@@ -38,17 +38,11 @@ namespace TinyParse
 
         public string Read(int length = 1)
         {
-            try
-            {
-                var value = _text.Substring(_position, length);
-                _position += length;
-                return value;
-            }
-            catch (Exception innerException)
-            {
-                throw new BoundsError(innerException);
-            }
+            var value = Peek(length);
+            _position += length;
+            return value;
         }
+
         public void Seek(int position = 0)
         {
             if (position < 0 || position >= _text.Length)

@@ -14,7 +14,7 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseAString()
         {
-            var parser =Parsers.Str("hello");
+            var parser = Generators.Str("hello");
             dynamic result = parser(Strings.Text.Source());
             Assert.AreEqual("hello", result);
         }
@@ -22,9 +22,9 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseNumber()
         {
-            var digits = Combinators.Many(Parsers.AnyOf(Strings.Digits));
-            var sign = Combinators.Optional(Parsers.AnyOf(Strings.Sign));
-            var fractional = Combinators.Optional(Combinators.All(Parsers.Str("."), digits));
+            var digits = Combinators.Many(Generators.AnyOf(Strings.Digits));
+            var sign = Combinators.Optional(Generators.AnyOf(Strings.Sign));
+            var fractional = Combinators.Optional(Combinators.All(Generators.Str("."), digits));
             var number = Combinators.All(sign, digits, fractional);
 
             var result = number(Strings.Float.Source());
@@ -34,7 +34,7 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseDigit()
         {
-            var digit = Parsers.AnyOf(Strings.Digits);
+            var digit = Generators.AnyOf(Strings.Digits);
 
             var result = digit(Strings.Integer.Source());
             Assert.AreEqual("3", result);
@@ -43,7 +43,7 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseDigits()
         {
-            var digits = Combinators.Many(Parsers.AnyOf(Strings.Digits));
+            var digits = Combinators.Many(Generators.AnyOf(Strings.Digits));
 
             var result = digits(Strings.Integer.Source());
             Assert.AreEqual(Strings.Integer, result);
@@ -53,16 +53,17 @@ namespace TinyParseTests
         public void ParseOneOrTheOther()
         {
             // Tests whether the first failed parse resets the position of the input.
-            var digit = Combinators.Any(Parsers.Str("8"), Parsers.Str("3"));
-
-            var result = digit(Strings.Integer.Source());
+            var digit = Combinators.Any(Generators.Str("8"), Generators.Str("3"));
+            var source = Strings.Integer.Source();
+            var result = digit(source);
             Assert.AreEqual("3", result);
+            Assert.AreEqual(1, source.Position);
         }
 
         [TestMethod]
         public void ParseASequence()
         {
-            var parser = Combinators.Sequence(Parsers.Str("hello"), Parsers.Str("world"));
+            var parser = Combinators.Sequence(Generators.Str("hello"), Generators.Str("world"));
             dynamic result = parser(Strings.Text2.Source());
             Assert.AreEqual("hello", result[0]);
             Assert.AreEqual("world", result[1]);
@@ -71,9 +72,48 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseAndApply()
         {
-            var parser = Combinators.Apply(Parsers.Str("hello"), s => s.ToUpper());
+            var parser = Combinators.Apply(Generators.Str("hello"), s => s.ToUpper());
             dynamic result = parser(Strings.Text.Source());
             Assert.AreEqual("HELLO", result);
+        }
+
+        [TestMethod]
+        public void SyntaxErrorDoesntChangePosition()
+        {
+            var source = Strings.Text.Source();
+            var parser = Generators.Str("world");
+            Assert.ThrowsException<SyntaxError>(() => parser(source));
+            Assert.AreEqual(0, source.Position);
+        }
+
+        [TestMethod]
+        public void ParseOptional()
+        {
+            var source = Strings.Text.Source();
+            var parser = Combinators.Optional(Generators.Str("0"));
+            var result = parser(source);
+            Assert.AreEqual(0, source.Position);
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [TestMethod]
+        public void ParseOptionalMany()
+        {
+            var source = Strings.Text.Source();
+            var parser = Combinators.Optional(Combinators.Many(Generators.AnyOf(Strings.Lower)));
+            var result = parser(source);
+            Assert.AreEqual(5, source.Position);
+            Assert.AreEqual("hello", result);
+        }
+
+        [TestMethod]
+        public void ParseOptionalManyFails()
+        {
+            var source = Strings.Integer.Source();
+            var parser = Combinators.Optional(Combinators.Many(Generators.AnyOf(Strings.Lower)));
+            var result = parser(source);
+            Assert.AreEqual(0, source.Position);
+            Assert.AreEqual(string.Empty, result);
         }
     }
 }

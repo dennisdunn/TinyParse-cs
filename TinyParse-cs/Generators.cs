@@ -9,9 +9,9 @@ using Predicate = TinyParse.Predicate;
 
 namespace TinyParse
 {
-    public static class Parsers
+    public static class Generators
     {
-        internal static dynamic Parse(ISourceText text, string expected, int length, Predicate fn)
+        internal static dynamic Parse(ISource text, string expected, int length, Predicate fn)
         {
             var str = text.Peek(length);
             if (fn(str, expected))

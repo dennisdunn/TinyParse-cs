@@ -3,7 +3,7 @@ using TinyParse;
 namespace TinyParseTests
 {
     [TestClass]
-    public class SourceTextTests
+    public class TextTests
     {
         [TestMethod]
         public void SeekError()
