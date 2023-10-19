@@ -122,13 +122,14 @@ namespace TinyParseGrammar
             var a0 = Grammar.Factor(source);
             var op = Grammar.Expr_Prime(source);
             var a1 = Grammar.Factor(source);
+            Assert.AreEqual("+", op);
         }
 
-        //[TestMethod]
-        //public void ParseGrammar()
-        //{
-        //    var source = "1 + 1".Source();
-        //    Grammar.Start(source);
-        //}
+        [TestMethod]
+        public void ParseGrammar()
+        {
+            var source = "1 + 1".Source();
+            var result =  Grammar.Start(source);
+        }
     }
 }
