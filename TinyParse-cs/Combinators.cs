@@ -143,20 +143,21 @@ namespace TinyParse
         ///// </summary>
         ///// <param name="parsers"></param>
         ///// <returns</returns>
-        //public static Parser Sequence(params Parser[] parsers)
-        //{
-        //    return text =>
-        //    {
-        //        var result = new List<dynamic>();
+        public static Parser Sequence(params Parser[] parsers)
+        {
+            return text =>
+            {
+                List<string> result = new();
 
-        //        foreach (Parser parser in parsers)
-        //        {
-        //            result.Add(parser(text));
-        //        }
+                foreach (Parser parser in parsers)
+                {
+                    var parse = parser(text);
+                    if (parse != string.Empty) result.Add(parse);
+                }
 
-        //        return result;
-        //    };
-        //}
+                return "[" + string.Join(",", result.ToArray()) + "]";
+            };
+        }
 
         /// <summary>
         /// Apply the function to the result of the parser.

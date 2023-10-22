@@ -119,14 +119,14 @@ namespace TinyParseGrammar
         //    Assert.AreEqual("+", result[1]);
         //}
 
-        //[TestMethod]
-        //public void ParseFactor()
-        //{
-        //    var source = "1 + 1".Source();
-        //    var parser = grammar.Factor;
-        //    var result = parser(source);
-        //    Assert.AreEqual("1", result);
-        //}
+        [TestMethod]
+        public void ParseFactor()
+        {
+            var source = "1 + 1".Source();
+            var parser = G.Factor;
+            var result = parser(source);
+            Assert.AreEqual("1", result);
+        }
 
         //[TestMethod]
         //public void ParsegrammarNonterminalComponent()
@@ -138,11 +138,12 @@ namespace TinyParseGrammar
         //    Assert.AreEqual("+", op);
         //}
 
-        //[TestMethod]
-        //public void Parsegrammar()
-        //{
-        //    var source = "1 + 1".Source();
-        //    var result = grammar.Start(source);
-        //}
+        [TestMethod]
+        public void Parsegrammar()
+        {
+            var source = "1 + 1".Source();
+            var result = G.Expr(source);
+            Assert.AreEqual("[[1],[+,[1]]]",result);
+        }
     }
 }

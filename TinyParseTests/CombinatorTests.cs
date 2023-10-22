@@ -61,14 +61,13 @@ namespace TinyParseTests
             Assert.AreEqual(1, source.Position);
         }
 
-        //[TestMethod]
-        //public void ParseASequence()
-        //{
-        //    var parser = BaseGrammar.Sequence(BaseGrammar.Str("hello"), BaseGrammar.Str("world"));
-        //    dynamic result = parser(Strings.Text2.Source());
-        //    Assert.AreEqual("hello", result[0]);
-        //    Assert.AreEqual("world", result[1]);
-        //}
+        [TestMethod]
+        public void ParseASequence()
+        {
+            var parser = BaseGrammar.Sequence(BaseGrammar.Str("hello"), BaseGrammar.Str("world"));
+            string result = parser(Strings.Text2.Source());
+            Assert.AreEqual("[\"hello\",\"world\"]", result);
+        }
 
         [TestMethod]
         public void ParseAndApply()

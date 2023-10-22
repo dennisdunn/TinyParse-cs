@@ -13,18 +13,18 @@ namespace TinyParseGrammar
     {
         //Terminals
 
-        public Parser SumOp => IgnoreWs(AnyOf("+-"));
-        public Parser ProductOp => IgnoreWs(AnyOf("*/"));
-        public Parser OpenParen => IgnoreWs(Str("("));
-        public Parser CloseParen => IgnoreWs(Str(")"));
-        public Parser Number => IgnoreWs(Signed);
+        public string SumOp(IText src) => IgnoreWs(AnyOf("+-"))(src);
+        public string ProductOp(IText src) => IgnoreWs(AnyOf("*/"))(src);
+        public string OpenParen(IText src) => IgnoreWs(Str("("))(src);
+        public string CloseParen(IText src) => IgnoreWs(Str(")"))(src);
+        public string Number(IText src) => IgnoreWs(Signed)(src);
 
         // Non-Terminals
 
-        //public Parser Expr => Sequence(Term, Expr_Prime);
-        //public Parser Expr_Prime => Optional(Sequence(sum, Term, Expr_Prime));
-        //public Parser Term => Sequence(Factor, Term_Prime);
-        //public Parser Term_Prime => Optional(Sequence(product, Factor, Term_Prime));
-        //public Parser Factor => Any(number, Sequence(open, Expr, close));
+        public string Expr(IText src) => Sequence(Term, Expr_Prime)(src);
+        public string Expr_Prime(IText src) => Optional(Sequence(SumOp, Term, Expr_Prime))(src);
+        public string Term(IText src) => Sequence(Factor, Term_Prime)(src);
+        public string Term_Prime(IText src) => Optional(Sequence(ProductOp, Factor, Term_Prime))(src);
+        public string Factor(IText src) => Any(Number, Sequence(OpenParen, Expr, CloseParen))(src);
     }
 }
