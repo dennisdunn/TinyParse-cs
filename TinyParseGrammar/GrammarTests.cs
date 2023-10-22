@@ -81,17 +81,17 @@ namespace TinyParseGrammar
         public void ParseOptionalSign()
         {
             var source = "388".Source();
-            var result = Grammar.Optional(G.Sign)(source);
-            Assert.AreEqual(string.Empty, result);
+            var result = BaseGrammar.Optional(G.Sign)(source);
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void ParseTheSignedComponents()
         {
             var source = "-388.9".Source();
-            var s = Grammar.Optional(G.Sign)(source);
+            var s = BaseGrammar.Optional(G.Sign)(source);
             var d = G.Digits(source);
-            var f = Grammar.Optional(G.Decimal)(source);
+            var f = BaseGrammar.Optional(G.Decimal)(source);
             Assert.AreEqual("-", s);
             Assert.AreEqual("388", d);
             Assert.AreEqual(".9", f);
@@ -113,8 +113,8 @@ namespace TinyParseGrammar
         //public void ParseGrammaarTerminalComponentsSequence()
         //{
         //    var source = "1 + 1".Source();
-        //    var parser = new[] { grammar.number, grammar.sum, grammar.number }.Sequence();
-        //    var result = parser(source);
+        //    var parser = BaseGrammar.Sequence(new[] { G.Number, G.SumOp, G.Number });
+        //    var result = (List<object>)parser(source);
         //    Assert.AreEqual(3, result.Count);
         //    Assert.AreEqual("+", result[1]);
         //}
@@ -128,22 +128,23 @@ namespace TinyParseGrammar
             Assert.AreEqual("1", result);
         }
 
-        //[TestMethod]
-        //public void ParsegrammarNonterminalComponent()
-        //{
-        //    var source = "1 + 1".Source();
-        //    var a0 = grammar.Factor(source);
-        //    var op = grammar.Expr_Prime(source);
-        //    var a1 = grammar.Factor(source);
-        //    Assert.AreEqual("+", op);
-        //}
-
         [TestMethod]
-        public void Parsegrammar()
+        public void ParseGrammarNonterminalComponent()
         {
             var source = "1 + 1".Source();
-            var result = G.Expr(source);
-            Assert.AreEqual("[[1],[+,[1]]]",result);
+            var a0 = G.Factor(source);
+            var op = G.SumOp(source);
+            var a1 = G.Factor(source);
+            Assert.AreEqual("+", op);
+        }
+
+        [TestMethod]
+        public void ParseGrammar()
+        {
+            var source = "1 + 1".Source();
+            var result = (List<object>)G.Expr(source);
+            Assert.AreEqual("1", ((List<object>)result[0])[0]);
+            Assert.AreEqual("+", ((List<object>)result[1])[0]);
         }
     }
 }
