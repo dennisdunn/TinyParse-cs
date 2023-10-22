@@ -18,9 +18,9 @@ namespace TinyParseTests
         public static string Whitespace => @" \t\n\l";
         public static string Lower=>"abcdefghijklmnopqrstuvwxyz";
     
-        public static ISource Source(this string str)
+        public static IText Source(this string str)
         {
-            return new Source(str);
+            return new Text(str);
         }
     }
 }

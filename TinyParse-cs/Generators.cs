@@ -5,35 +5,20 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Predicate = TinyParse.Predicate;
 
 namespace TinyParse
 {
-    public static class Generators
+    public partial class BaseGrammar
     {
-        internal static dynamic Parse(ISource text, string expected, int length, Predicate fn)
-        {
-            var str = text.Peek(length);
-            if (fn(str, expected))
-            {
-                return text.Read(length);
-            }
-            else
-            {
-                throw new SyntaxError()
-                {
-                    Position = text.Position,
-                    Expected = expected
-                };
-            }
-        }
-
-
         public static Parser Str(string expected)
         {
             return text =>
             {
-                return Parse(text, expected, expected.Length, (str, exp) => str == exp);
+                var str = text.Peek(expected.Length);
+
+                return str == expected
+                ? text.Read(expected.Length)
+                : throw new SyntaxError(text, expected);
             };
         }
 
@@ -41,7 +26,11 @@ namespace TinyParse
         {
             return text =>
             {
-                return Parse(text, expected, 1, (str, exp) => exp.Contains(str));
+                var str = text.Peek();
+
+                return expected.Contains(str)
+                ? text.Read()
+                : throw new SyntaxError(text, expected);
             };
         }
     }

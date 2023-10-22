@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public delegate dynamic Parser(ISource text);
-    public delegate bool Predicate(string str, string expected);
+    public delegate string Parser(IText text);
+    public delegate Parser Combinator(Parser parser);
+    //public delegate Parser Combinator(params Parser[] parsers);
 }

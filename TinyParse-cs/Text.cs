@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public interface ISource
+    public interface IText
     {
         int Position { get; }
         string Read(int length = 1);
         string Peek(int length = 1);
         void Seek(int position = 0);
     }
-    public class Source : ISource
+    public class Text : IText
     {
         private int _position = 0;
-        private string _text;
+        private readonly string _text;
 
         public int Position => _position;
 
-        public Source(string text)
+        public Text(string text)
         {
             _text = text;
         }
@@ -53,6 +54,13 @@ namespace TinyParse
             {
                 _position = position;
             }
+        }
+    }
+    public static class Extensions
+    {
+        public static IText Source(this string str)
+        {
+            return new Text(str);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
-    public static class Combinators
+    public partial class BaseGrammar
     {
         /// <summary>
         /// Return the first parser to succeed.
@@ -138,27 +138,33 @@ namespace TinyParse
             };
         }
 
+        ///// <summary>
+        ///// Build a list (possibly nested) of the results from the parsers.
+        ///// </summary>
+        ///// <param name="parsers"></param>
+        ///// <returns</returns>
+        //public static Parser Sequence(params Parser[] parsers)
+        //{
+        //    return text =>
+        //    {
+        //        var result = new List<dynamic>();
+
+        //        foreach (Parser parser in parsers)
+        //        {
+        //            result.Add(parser(text));
+        //        }
+
+        //        return result;
+        //    };
+        //}
+
         /// <summary>
-        /// Build a list (possibly nested) of the results from the parsers.
+        /// Apply the function to the result of the parser.
         /// </summary>
-        /// <param name="parsers"></param>
-        /// <returns</returns>
-        public static Parser Sequence(params Parser[] parsers)
-        {
-            return text =>
-            {
-                var result = new List<dynamic>();
-
-                foreach (Parser parser in parsers)
-                {
-                    result.Add(parser(text));
-                }
-
-                return result;
-            };
-        }
-
-        public static Parser Apply<T>(Parser parser, Func<string, T> fn)
+        /// <param name="parser"></param>
+        /// <param name="fn"></param>
+        /// <returns></returns>
+        public static Parser Apply(Parser parser, Func<string, string> fn)
         {
             return text =>
             {

@@ -17,12 +17,17 @@ namespace TinyParse
         public int? Position { get; init; }
         public string? Expected { get; init; }
         public SyntaxError() { }
-        public SyntaxError(Exception e) : base(e) { }
+        public SyntaxError(IText text, string expected)
+        {
+            Position = text.Position;
+            Expected = expected;
+        }
+        public SyntaxError(Exception e) : base(e){ }
     }
 
     public class BoundsError : Error
     {
         public BoundsError() { }
-        public BoundsError(Exception e) : base( e) { }
+        public BoundsError(Exception e) : base(e) { }
     }
 }
