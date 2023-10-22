@@ -14,7 +14,7 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseAString()
         {
-            var parser = 
+            var parser =
                 BaseGrammar.Str("hello");
             dynamic result = parser(Strings.Text.Source());
             Assert.AreEqual("hello", result);
@@ -65,15 +65,16 @@ namespace TinyParseTests
         public void ParseASequence()
         {
             var parser = BaseGrammar.Sequence(BaseGrammar.Str("hello"), BaseGrammar.Str("world"));
-            string result = parser(Strings.Text2.Source());
-            Assert.AreEqual("[\"hello\",\"world\"]", result);
+            var result = (List<object>)parser(Strings.Text2.Source());
+            Assert.AreEqual("hello", result[0]);
+            Assert.AreEqual("world", result[1]);
         }
 
         [TestMethod]
         public void ParseAndApply()
         {
-            var parser = BaseGrammar.Apply(BaseGrammar.Str("hello"), s => s.ToUpper());
-            dynamic result = parser(Strings.Text.Source());
+            var parser = BaseGrammar.Apply(BaseGrammar.Str("hello"), s => ((string)s).ToUpper());
+            var result = (string)parser(Strings.Text.Source());
             Assert.AreEqual("HELLO", result);
         }
 
@@ -93,7 +94,7 @@ namespace TinyParseTests
             var parser = BaseGrammar.Optional(BaseGrammar.Str("0"));
             var result = parser(source);
             Assert.AreEqual(0, source.Position);
-            Assert.AreEqual(string.Empty, result);
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -113,7 +114,7 @@ namespace TinyParseTests
             var parser = BaseGrammar.Optional(BaseGrammar.Many(BaseGrammar.AnyOf(Strings.Lower)));
             var result = parser(source);
             Assert.AreEqual(0, source.Position);
-            Assert.AreEqual(string.Empty, result);
+            Assert.IsNull(result);
         }
     }
 }

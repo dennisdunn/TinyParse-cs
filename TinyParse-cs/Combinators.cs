@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace TinyParse
 {
+    public delegate object? Parser(IText text);
+
     public partial class BaseGrammar
     {
+
         /// <summary>
         /// Return the first parser to succeed.
         /// </summary>
@@ -71,7 +74,7 @@ namespace TinyParse
         {
             return text =>
             {
-                var result = new StringBuilder(parser(text));
+                var result = new StringBuilder((string)parser(text));
 
                 while (true)
                 {
@@ -105,7 +108,7 @@ namespace TinyParse
                 }
                 catch (Error)
                 {
-                    return string.Empty;
+                    return null;
                 }
             };
         }
@@ -123,7 +126,7 @@ namespace TinyParse
         /// Ignore the results of the parser.
         /// </summary>
         /// <param name="parser"></param>
-        /// <returns>string.Empty</returns>
+        /// <returns>null</returns>
         public static Parser Ignore(Parser parser)
         {
             return text =>
@@ -134,7 +137,7 @@ namespace TinyParse
                 }
                 catch (SyntaxError) { }
 
-                return string.Empty;
+                return null;
             };
         }
 
@@ -147,15 +150,15 @@ namespace TinyParse
         {
             return text =>
             {
-                List<string> result = new();
+                List<object> result = new();
 
                 foreach (Parser parser in parsers)
                 {
                     var parse = parser(text);
-                    if (parse != string.Empty) result.Add(parse);
+                    if (parse != null) result.Add(parse);
                 }
 
-                return "[" + string.Join(",", result.ToArray()) + "]";
+                return result;
             };
         }
 
@@ -165,12 +168,14 @@ namespace TinyParse
         /// <param name="parser"></param>
         /// <param name="fn"></param>
         /// <returns></returns>
-        public static Parser Apply(Parser parser, Func<string, string> fn)
+        public static Parser Apply(Parser parser, Func<object, object> fn)
         {
             return text =>
             {
                 var result = parser(text);
-                return fn(result);
+                return result != null
+                ? fn(result)
+                : result;
             };
         }
     }
