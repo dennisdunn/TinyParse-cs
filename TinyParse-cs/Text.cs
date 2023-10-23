@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TinyParse
+﻿namespace TinyParse
 {
     public interface IText
     {
@@ -16,10 +9,9 @@ namespace TinyParse
     }
     public class Text : IText
     {
-        private int _position = 0;
         private readonly string _text;
 
-        public int Position => _position;
+        public int Position { get; private set; }
 
         public Text(string text)
         {
@@ -29,7 +21,7 @@ namespace TinyParse
         {
             try
             {
-                return _text.Substring(_position, length);
+                return _text.Substring(Position, length);
             }
             catch (Exception innerException)
             {
@@ -40,7 +32,7 @@ namespace TinyParse
         public string Read(int length = 1)
         {
             var value = Peek(length);
-            _position += length;
+            Position += length;
             return value;
         }
 
@@ -52,7 +44,7 @@ namespace TinyParse
             }
             else
             {
-                _position = position;
+                Position = position;
             }
         }
     }

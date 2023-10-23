@@ -9,7 +9,7 @@ using TinyParse;
 
 namespace TinyParseGrammar
 {
-    public partial class Grammar : BaseGrammar
+    public partial class Grammar : Combinators
     {
         public Parser Whitespace => Many(AnyOf(@" \n\l\t"));
         public Parser Sign => AnyOf("+-");

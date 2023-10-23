@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TinyParse
+﻿namespace TinyParse
 {
     public abstract class Error : Exception
     {
@@ -22,7 +16,7 @@ namespace TinyParse
             Position = text.Position;
             Expected = expected;
         }
-        public SyntaxError(Exception e) : base(e){ }
+        public SyntaxError(Exception e) : base(e) { }
     }
 
     public class BoundsError : Error

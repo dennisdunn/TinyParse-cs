@@ -81,7 +81,7 @@ namespace TinyParseGrammar
         public void ParseOptionalSign()
         {
             var source = "388".Source();
-            var result = BaseGrammar.Optional(G.Sign)(source);
+            var result = Combinators.Optional(G.Sign)(source);
             Assert.IsNull(result);
         }
 
@@ -89,9 +89,9 @@ namespace TinyParseGrammar
         public void ParseTheSignedComponents()
         {
             var source = "-388.9".Source();
-            var s = BaseGrammar.Optional(G.Sign)(source);
+            var s = Combinators.Optional(G.Sign)(source);
             var d = G.Digits(source);
-            var f = BaseGrammar.Optional(G.Decimal)(source);
+            var f = Combinators.Optional(G.Decimal)(source);
             Assert.AreEqual("-", s);
             Assert.AreEqual("388", d);
             Assert.AreEqual(".9", f);
@@ -109,15 +109,15 @@ namespace TinyParseGrammar
             Assert.AreEqual("1", a1);
         }
 
-        //[TestMethod]
-        //public void ParseGrammaarTerminalComponentsSequence()
-        //{
-        //    var source = "1 + 1".Source();
-        //    var parser = BaseGrammar.Sequence(new[] { G.Number, G.SumOp, G.Number });
-        //    var result = (List<object>)parser(source);
-        //    Assert.AreEqual(3, result.Count);
-        //    Assert.AreEqual("+", result[1]);
-        //}
+        [TestMethod]
+        public void ParseGrammaarTerminalComponentsSequence()
+        {
+            var source = "1 + 1".Source();
+            var parser = Combinators.Sequence( G.Number, G.SumOp, G.Number );
+            var result =parser(source);
+            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual("+", result[1]);
+        }
 
         [TestMethod]
         public void ParseFactor()
@@ -142,9 +142,10 @@ namespace TinyParseGrammar
         public void ParseGrammar()
         {
             var source = "1 + 1".Source();
-            var result = (List<object>)G.Expr(source);
-            Assert.AreEqual("1", ((List<object>)result[0])[0]);
-            Assert.AreEqual("+", ((List<object>)result[1])[0]);
+            var result = G.Expr(source);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("1", result[0][0]);
+            Assert.AreEqual("+", result[1][0]);
         }
     }
 }

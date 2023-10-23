@@ -1,10 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TinyParse;
+﻿using TinyParse;
 
 namespace TinyParseTests
 {
@@ -14,13 +8,13 @@ namespace TinyParseTests
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<SyntaxError>(() => BaseGrammar.Str("world")(Strings.Text.Source()));
+            Assert.ThrowsException<SyntaxError>(() => Combinators.Str("world")(Strings.Text.Source()));
         }
 
         [TestMethod]
         public void ChrParser()
         {
-            var p = BaseGrammar.Str("h");
+            var p = Combinators.Str("h");
             Assert.IsInstanceOfType(p, typeof(Parser));
         }
 
@@ -28,7 +22,7 @@ namespace TinyParseTests
         public void RunStrParser()
         {
 
-            var p = BaseGrammar.Str("h");
+            var p = Combinators.Str("h");
             var c = p(Strings.Text.Source());
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
@@ -38,7 +32,7 @@ namespace TinyParseTests
         public void RunAnyOfParser()
         {
             var source = Strings.Text.Source();
-            var p = BaseGrammar.AnyOf("efghijk");
+            var p = Combinators.AnyOf("efghijk");
             var c = p(source);
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());

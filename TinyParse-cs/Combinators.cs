@@ -1,15 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace TinyParse
 {
-    public delegate object? Parser(IText text);
+    public delegate dynamic? Parser(IText text);
 
-    public partial class BaseGrammar
+    public class Combinators
     {
+        // Parser generators
+        public static Parser Str(string expected)
+        {
+            return text =>
+            {
+                var str = text.Peek(expected.Length);
+
+                return str == expected
+                ? text.Read(expected.Length)
+                : throw new SyntaxError(text, expected);
+            };
+        }
+
+        public static Parser AnyOf(string expected)
+        {
+            return text =>
+            {
+                var str = text.Peek();
+
+                return expected.Contains(str)
+                ? text.Read()
+                : throw new SyntaxError(text, expected);
+            };
+        }
+
+        // Parser combinators
 
         /// <summary>
         /// Return the first parser to succeed.
@@ -52,7 +74,8 @@ namespace TinyParse
 
                     foreach (Parser parser in parsers)
                     {
-                        result.Append(parser(text));
+                        var match = parser(text);
+                        if (match != null) result.Append(match);
                     }
 
                     return result.ToString();
@@ -74,7 +97,7 @@ namespace TinyParse
         {
             return text =>
             {
-                var result = new StringBuilder((string)parser(text));
+                var result = new StringBuilder(parser(text));
 
                 while (true)
                 {
@@ -168,7 +191,7 @@ namespace TinyParse
         /// <param name="parser"></param>
         /// <param name="fn"></param>
         /// <returns></returns>
-        public static Parser Apply(Parser parser, Func<object, object> fn)
+        public static Parser Apply(Parser parser, Func<dynamic?, dynamic?> fn)
         {
             return text =>
             {
