@@ -6,11 +6,11 @@ namespace TinyParseGrammar
     {
         //Terminals
 
-        public dynamic? SumOp(IText src) => IgnoreWs(AnyOf("+-"))(src);
-        public dynamic? ProductOp(IText src) => IgnoreWs(AnyOf("*/"))(src);
-        public dynamic? OpenParen(IText src) => IgnoreWs(Str("("))(src);
-        public dynamic? CloseParen(IText src) => IgnoreWs(Str(")"))(src);
-        public dynamic? Number(IText src) => IgnoreWs(Signed)(src);
+        public dynamic? SumOp(IText src) => Final(Ignore(Whitespace), AnyOf("+-"))(src);
+        public dynamic? ProductOp(IText src) => Final(Ignore(Whitespace), AnyOf("*/"))(src);
+        public dynamic? OpenParen(IText src) => Final(Ignore(Whitespace), Str("("))(src);
+        public dynamic? CloseParen(IText src) => Final(Ignore(Whitespace), Str(")"))(src);
+        public dynamic? Number(IText src) => Final(Ignore(Whitespace), Signed)(src);
 
         // Non-Terminals
 

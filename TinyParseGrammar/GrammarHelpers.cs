@@ -16,6 +16,5 @@ namespace TinyParseGrammar
         public Parser Digits => Many(AnyOf("1234567890"));
         public Parser Decimal => All(Str("."), Digits);
         public Parser Signed => All(Optional(Sign), Digits, Optional(Decimal));
-        public Parser IgnoreWs(Parser parser) => Final(Ignore(Whitespace), parser);
     }
 }
