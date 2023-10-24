@@ -3,25 +3,26 @@
     public interface IText
     {
         int Position { get; }
+        string Source { get; }
         string Read(int length = 1);
         string Peek(int length = 1);
         void Seek(int position = 0);
     }
     public class Text : IText
     {
-        private readonly string _text;
-
         public int Position { get; private set; }
+        public string Source { get; init; }
 
-        public Text(string text)
+        public Text(string str)
         {
-            _text = text;
+            Source = str;
         }
+
         public string Peek(int length = 1)
         {
             try
             {
-                return _text.Substring(Position, length);
+                return Source.Substring(Position, length);
             }
             catch (Exception innerException)
             {
@@ -38,7 +39,7 @@
 
         public void Seek(int position = 0)
         {
-            if (position < 0 || position >= _text.Length)
+            if (position < 0 || position >= Source.Length)
             {
                 throw new BoundsError();
             }
@@ -50,7 +51,7 @@
     }
     public static class Extensions
     {
-        public static IText Source(this string str)
+        public static IText AsText(this string str)
         {
             return new Text(str);
         }

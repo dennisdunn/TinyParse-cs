@@ -119,7 +119,7 @@ namespace TinyParse
         /// </summary>
         /// <param name="parser"></param>
         /// <returns>
-        /// If the parser doesn't match then return "" instead throwing an Error.
+        /// If the parser doesn't match then return null instead throwing an Error.
         /// </returns>
         public static Parser Optional(Parser parser)
         {
@@ -133,35 +133,6 @@ namespace TinyParse
                 {
                     return null;
                 }
-            };
-        }
-        /// <summary>
-        /// Zero or more
-        /// </summary>
-        /// <param name="parser"></param>
-        /// <returns></returns>
-        public static Parser Maybe(Parser parser)
-        {
-            return Optional(Many(parser));
-        }
-
-        /// <summary>
-        /// Run all of the parsers but only return the results of the final one
-        /// </summary>
-        /// <param name="parsers"></param>
-        /// <returns></returns>
-        public static Parser Final(params Parser[] parsers)
-        {
-            return text =>
-            {
-                dynamic? result = null;
-
-                foreach (Parser parser in parsers)
-                {
-                    result = parser(text);
-                }
-
-                return result;
             };
         }
 
@@ -178,7 +149,7 @@ namespace TinyParse
                 {
                     parser(text);
                 }
-                catch (SyntaxError) { }
+                catch (Error) { }
 
                 return null;
             };
@@ -193,7 +164,7 @@ namespace TinyParse
         {
             return text =>
             {
-                List<object> result = new();
+                List<dynamic> result = new();
 
                 foreach (Parser parser in parsers)
                 {
