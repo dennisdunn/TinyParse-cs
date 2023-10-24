@@ -1,5 +1,5 @@
-# ***Tiny Parse***
-## A Parser Combinator Library
+***Tiny Parse*** - A Parser Combinator Library
+===
 
 About
 ---
@@ -30,10 +30,10 @@ These parsers throw a ```SyntaxError``` if they fail to match the current input.
 
 - AnyOf
     - A parser which succeeds when the next character from the input is contained in the string argument.
-    - ```anyOf("0123456789")```
+    - ```AnyOf("0123456789")```
 - Str
-    - A parser which matches all of the string argument.
-    - ```str("hello, world")```
+    - A parser which matches the string argument.
+    - ```Str("hello, world")```
 
 Parser Combinators
 ---
@@ -50,15 +50,15 @@ Parser Combinators
 - Optional
     - Matches the argument 0 or 1 time. Always succeeds,
     potentially returning ```null``` as a result.
-    - ```Optional(AnyOf(" \t\r\n"))```
+    - ```Optional(AnyOf(@" \t\r\n"))```
 - Ignore
     - Tries to match the argument and ignores any errors. 
     Always returns ```null``` as a result.
-    - ```Ignore(AnyOf(" \t\r\n"))```
+    - ```Ignore(AnyOf(@" \t\r\n"))```
 - Sequence
     - Matches each of the arguments and returns the results as a list.
     -  ```Sequence(Str('('), Many(AnyOf("0123456789")), Str(')'))```
 - Apply
     - Tries to match the first argument and if successful, applies the second argument to the result.
-    - ```Apply(Many(AnyOf("0123456789")), s => Integer.Parse(s))```
+    - ```Apply(Many(AnyOf("0123456789")), s => int.Parse(s))```
 
