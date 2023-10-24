@@ -5,13 +5,8 @@ namespace TinyParseTests
     [TestClass]
     public class GrammarTests
     {
-        Grammar G { get; set; }
+        Grammar G { get; init; } = new Grammar();
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            G = new Grammar();
-        }
         [TestMethod]
         public void ParseDigits()
         {

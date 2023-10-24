@@ -9,8 +9,7 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseAString()
         {
-            var parser =
-                Combinators.Str("hello");
+            var parser = Combinators.Str("hello");
             dynamic? result = parser(Strings.Text.Source());
             Assert.AreEqual("hello", result);
         }
@@ -60,7 +59,7 @@ namespace TinyParseTests
         public void ParseASequence()
         {
             var parser = Combinators.Sequence(Combinators.Str("hello"), Combinators.Str("world"));
-            var result = (List<object>)parser(Strings.Text2.Source());
+            var result = parser(Strings.Text2.Source());
             Assert.AreEqual("hello", result[0]);
             Assert.AreEqual("world", result[1]);
         }
@@ -68,8 +67,8 @@ namespace TinyParseTests
         [TestMethod]
         public void ParseAndApply()
         {
-            var parser = Combinators.Apply(Combinators.Str("hello"), s => ((string)s).ToUpper());
-            var result = (string)parser(Strings.Text.Source());
+            var parser = Combinators.Apply(Combinators.Str("hello"), s => s.ToUpper());
+            var result = parser(Strings.Text.Source());
             Assert.AreEqual("HELLO", result);
         }
 
