@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TinyParse-cs\TinyParse.csproj" />
+    <ProjectReference Include="..\TinyParse\TinyParse.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyParse", "TinyParse-cs\TinyParse.csproj", "{A40B7047-5177-4C18-ABDE-C9D98A1FEAF5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyParseTests", "TinyParseTests\TinyParseTests.csproj", "{11B9CA6E-81D5-4430-8E73-34838717FA77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5061171D-0BF9-4CEF-8AC6-106801A3B9FF}"
@@ -13,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyParseGrammar", "TinyParseGrammar\TinyParseGrammar.csproj", "{FD9A3DA3-3E9F-41DF-BC4B-AC4B095313F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyParse", "TinyParse\TinyParse.csproj", "{4C72AF61-2A27-4610-A0CE-41FB0843E1AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A40B7047-5177-4C18-ABDE-C9D98A1FEAF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A40B7047-5177-4C18-ABDE-C9D98A1FEAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A40B7047-5177-4C18-ABDE-C9D98A1FEAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A40B7047-5177-4C18-ABDE-C9D98A1FEAF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11B9CA6E-81D5-4430-8E73-34838717FA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11B9CA6E-81D5-4430-8E73-34838717FA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11B9CA6E-81D5-4430-8E73-34838717FA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B9CA6E-81D5-4430-8E73-34838717FA77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD9A3DA3-3E9F-41DF-BC4B-AC4B095313F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD9A3DA3-3E9F-41DF-BC4B-AC4B095313F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD9A3DA3-3E9F-41DF-BC4B-AC4B095313F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD9A3DA3-3E9F-41DF-BC4B-AC4B095313F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C72AF61-2A27-4610-A0CE-41FB0843E1AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C72AF61-2A27-4610-A0CE-41FB0843E1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C72AF61-2A27-4610-A0CE-41FB0843E1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C72AF61-2A27-4610-A0CE-41FB0843E1AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

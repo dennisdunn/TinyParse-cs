@@ -1,7 +1,6 @@
-using System.Dynamic;
 using TinyParse;
 
-namespace TinyParseGrammar
+namespace TinyParseTests
 {
     [TestClass]
     public class GrammarTests

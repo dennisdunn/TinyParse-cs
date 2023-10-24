@@ -1,6 +1,6 @@
 ﻿using TinyParse;
 
-namespace TinyParseGrammar
+namespace TinyParseTests
 {
     public partial class Grammar : Combinators
     {
