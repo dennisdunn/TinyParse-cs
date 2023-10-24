@@ -146,6 +146,26 @@ namespace TinyParse
         }
 
         /// <summary>
+        /// Run all of the parsers but only return the results of the final one
+        /// </summary>
+        /// <param name="parsers"></param>
+        /// <returns></returns>
+        public static Parser Final(params Parser[] parsers)
+        {
+            return text =>
+            {
+                dynamic? result = null;
+
+                foreach (Parser parser in parsers)
+                {
+                    result = parser(text);
+                }
+
+                return result;
+            };
+        }
+
+        /// <summary>
         /// Ignore the results of the parser.
         /// </summary>
         /// <param name="parser"></param>

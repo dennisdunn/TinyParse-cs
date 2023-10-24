@@ -1,3 +1,4 @@
+using System.Dynamic;
 using TinyParse;
 
 namespace TinyParseGrammar
@@ -113,8 +114,8 @@ namespace TinyParseGrammar
         public void ParseGrammaarTerminalComponentsSequence()
         {
             var source = "1 + 1".Source();
-            var parser = Combinators.Sequence( G.Number, G.SumOp, G.Number );
-            var result =parser(source);
+            var parser = Combinators.Sequence(G.Number, G.SumOp, G.Number);
+            var result = parser(source);
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual("+", result[1]);
         }
@@ -146,6 +147,14 @@ namespace TinyParseGrammar
             Assert.IsNotNull(result);
             Assert.AreEqual("1", result[0][0]);
             Assert.AreEqual("+", result[1][0]);
+        }
+
+        [TestMethod]
+        public void ParseAnumericalNumber()
+        {
+            var parser = Combinators.Apply(G.Signed, value => float.Parse(value));
+            var result = parser("-3.88".Source());
+            Assert.AreEqual(-3.88, result, 0.001);
         }
     }
 }
