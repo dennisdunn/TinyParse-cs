@@ -2,7 +2,7 @@
 
 namespace TinyParse
 {
-    public delegate dynamic? Parser(IText text);
+    public delegate object? Parser(IText text);
 
     public class Combinators
     {
@@ -74,8 +74,7 @@ namespace TinyParse
 
                     foreach (Parser parser in parsers)
                     {
-                        var match = parser(text);
-                        if (match != null) result.Append(match);
+                        result.AppendIfNotNullOrWhitespace(parser(text));
                     }
 
                     return result.ToString();
@@ -97,13 +96,14 @@ namespace TinyParse
         {
             return text =>
             {
-                var result = new StringBuilder(parser(text));
+                var result = new StringBuilder();
+                result.AppendIfNotNullOrWhitespace(parser(text));
 
                 while (true)
                 {
                     try
                     {
-                        result.Append(parser(text));
+                        result.AppendIfNotNullOrWhitespace(parser(text));
                     }
                     catch (Error)
                     {
@@ -164,7 +164,7 @@ namespace TinyParse
         {
             return text =>
             {
-                List<dynamic> result = new();
+                List<object> result = new();
 
                 foreach (Parser parser in parsers)
                 {
@@ -182,7 +182,7 @@ namespace TinyParse
         /// <param name="parser"></param>
         /// <param name="fn"></param>
         /// <returns></returns>
-        public static Parser Apply(Parser parser, Func<dynamic?, dynamic?> fn)
+        public static Parser Apply(Parser parser, Func<object, object> fn)
         {
             return text =>
             {

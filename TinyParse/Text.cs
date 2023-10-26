@@ -49,11 +49,4 @@
             }
         }
     }
-    public static class Extensions
-    {
-        public static IText AsText(this string str)
-        {
-            return new Text(str);
-        }
-    }
 }
