@@ -12,10 +12,5 @@ namespace TinyParseTests
         public static string Sign => "+-";
         public static string Whitespace => @" \t\n\l";
         public static string Lower=>"abcdefghijklmnopqrstuvwxyz";
-    
-        public static IText Source(this string str)
-        {
-            return new Text(str);
-        }
     }
 }

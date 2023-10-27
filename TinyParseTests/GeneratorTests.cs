@@ -8,7 +8,7 @@ namespace TinyParseTests
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<SyntaxError>(() => Combinators.Str("world")(Strings.Text.Source()));
+            Assert.ThrowsException<SyntaxError>(() => Combinators.Str("world")(Strings.Text.ToInput()));
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace TinyParseTests
         {
 
             var p = Combinators.Str("h");
-            var c = p(Strings.Text.Source());
+            var c = p(Strings.Text.ToInput());
             Assert.IsNotNull(c);
             Assert.AreEqual("h", c.ToString());
         }
@@ -31,7 +31,7 @@ namespace TinyParseTests
         [TestMethod]
         public void RunAnyOfParser()
         {
-            var source = Strings.Text.Source();
+            var source = Strings.Text.ToInput();
             var p = Combinators.AnyOf("efghijk");
             var c = p(source);
             Assert.IsNotNull(c);
