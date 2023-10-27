@@ -1,4 +1,6 @@
-﻿namespace TinyParse
+﻿using System.Text;
+
+namespace TinyParse
 {
     public interface IText
     {
@@ -47,6 +49,13 @@
             {
                 Position = position;
             }
+        }
+    }
+    public static class Extensions
+    {
+        public static IText ToInput(this string str)
+        {
+            return new Text(str);
         }
     }
 }

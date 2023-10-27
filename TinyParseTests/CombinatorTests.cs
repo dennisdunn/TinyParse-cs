@@ -60,7 +60,7 @@ namespace TinyParseTests
         public void ParseASequence()
         {
             var parser = Combinators.Sequence(Combinators.Str("hello"), Combinators.Str("world"));
-            var result =(List<object>) parser(Strings.Text2.Source());
+            var result = parser(Strings.Text2.Source());
             Assert.AreEqual("hello", result[0]);
             Assert.AreEqual("world", result[1]);
         }
@@ -89,7 +89,7 @@ namespace TinyParseTests
             var parser = Combinators.Optional(Combinators.Str("0"));
             var result = parser(source);
             Assert.AreEqual(0, source.Position);
-            Assert.IsNull(result);
+            Assert.AreEqual(result,string.Empty);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace TinyParseTests
             var parser = Combinators.Optional(Combinators.Many(Combinators.AnyOf(Strings.Lower)));
             var result = parser(source);
             Assert.AreEqual(0, source.Position);
-            Assert.IsNull(result);
+            Assert.AreEqual(result,string.Empty);
         }
     }
 }

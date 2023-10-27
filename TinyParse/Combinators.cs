@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices.ObjectiveC;
+using System.Text;
 
 namespace TinyParse
 {
-    public delegate object? Parser(IText text);
+    public delegate string Parser(IText text);
 
     public class Combinators
     {
@@ -74,7 +75,7 @@ namespace TinyParse
 
                     foreach (Parser parser in parsers)
                     {
-                        result.AppendIfNotNullOrWhitespace(parser(text));
+                        result.Append(parser(text));
                     }
 
                     return result.ToString();
@@ -97,13 +98,13 @@ namespace TinyParse
             return text =>
             {
                 var result = new StringBuilder();
-                result.AppendIfNotNullOrWhitespace(parser(text));
+                result.Append(parser(text));
 
                 while (true)
                 {
                     try
                     {
-                        result.AppendIfNotNullOrWhitespace(parser(text));
+                        result.Append(parser(text));
                     }
                     catch (Error)
                     {
@@ -119,7 +120,7 @@ namespace TinyParse
         /// </summary>
         /// <param name="parser"></param>
         /// <returns>
-        /// If the parser doesn't match then return null instead throwing an Error.
+        /// If the parser doesn't match then return string.Empty instead throwing an Error.
         /// </returns>
         public static Parser Optional(Parser parser)
         {
@@ -131,7 +132,7 @@ namespace TinyParse
                 }
                 catch (Error)
                 {
-                    return null;
+                    return string.Empty;
                 }
             };
         }
@@ -151,25 +152,25 @@ namespace TinyParse
                 }
                 catch (Error) { }
 
-                return null;
+                return string.Empty;
             };
         }
 
         ///// <summary>
-        ///// Build a list (possibly nested) of the results from the parsers.
+        ///// Build a list of the results from the parsers.
         ///// </summary>
         ///// <param name="parsers"></param>
         ///// <returns</returns>
-        public static Parser Sequence(params Parser[] parsers)
+        public static Func<IText, IList<string>> Sequence(params Parser[] parsers)
         {
             return text =>
             {
-                List<object> result = new();
+                List<string> result = new();
 
                 foreach (Parser parser in parsers)
                 {
                     var parse = parser(text);
-                    if (parse != null) result.Add(parse);
+                    result.Add(parse);
                 }
 
                 return result;
@@ -182,14 +183,12 @@ namespace TinyParse
         /// <param name="parser"></param>
         /// <param name="fn"></param>
         /// <returns></returns>
-        public static Parser Apply(Parser parser, Func<object, object> fn)
+        public static Parser Apply(Parser parser, Func<string, string> fn)
         {
             return text =>
             {
                 var result = parser(text);
-                return result != null
-                ? fn(result)
-                : result;
+                return fn(result);
             };
         }
     }
